@@ -6,549 +6,672 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@drawable/gradient_blue"
-    android:gravity="center">
+    android:gravity="center"
+    android:divider="@drawable/keyboard_divider"
+    android:showDividers="beginning|middle|end"
+    android:id="@+id/table">
 
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_0"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_1"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_2"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_3"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_4"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_5"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_6"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_7"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_8"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_9"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
 
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_10"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_11"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_12"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_13"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_14"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_15"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_16"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_17"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_18"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_19"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_20"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_21"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_22"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_23"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_24"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_25"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_26"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_27"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_28"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_29"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_30"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_31"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_32"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_33"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_34"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_35"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_36"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_37"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_38"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_39"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_40"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_41"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_42"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_43"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_44"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_45"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_46"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_47"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_48"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_49"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_50"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_51"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_52"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_53"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_54"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_55"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_56"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_57"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_58"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_59"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_60"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_61"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_62"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_63"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_64"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_65"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_66"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_67"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_68"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_69"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_70"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_71"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_72"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_73"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_74"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_75"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_76"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_77"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-    </TableRow>
-    <TableRow
-        android:layout_height="20dp">
-        <Button
-            android:background="transparent"
+            android:id="@+id/cell_78"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:background="transparent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-
-        <Button
-            android:background="transparent"
+            android:id="@+id/cell_79"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="20dp">
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_80"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_81"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_82"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_83"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_84"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_85"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_86"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_87"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_88"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
 
         <Button
-            android:background="transparent"
+            android:id="@+id/cell_89"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
     </TableRow>
+    <TableRow
+        android:layout_height="20dp"
+        android:divider="@drawable/keyboard_divider"
+        android:showDividers="beginning|middle|end">
+        <Button
+            android:id="@+id/cell_90"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_91"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_92"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_93"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_94"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_95"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_96"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_97"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+        <Button
+            android:id="@+id/cell_98"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+
+        <Button
+            android:id="@+id/cell_99"
+            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </Button>
+    </TableRow>
+
 
 
 

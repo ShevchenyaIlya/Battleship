@@ -9,31 +9,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
 
-    private int[][] fieldMatrix = new int[10][10];
+    private BattleField yourField;
+    private BattleField opponentField;
+    Spinner shipTypes;
+    TextView pageTitle;
+    Button rotateShip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        yourField = new BattleField();
+        opponentField = new BattleField();
         initButtons();
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-//        TableRow raw = (TableRow) view.getParent();
-//        int id = raw.getId();
-//        TableLayout table = (TableLayout) raw.getParent();
-//
-//    }
-
     private void initButtons() {
+        shipTypes = (Spinner) findViewById(R.id.ShipType);
+        pageTitle = (TextView) findViewById(R.id.PageTitle);
+        rotateShip = (Button) findViewById(R.id.RotateButton);
+        initSpinner();
+
         TableLayout table = (TableLayout) findViewById(R.id.table);
         int rowCount = table.getChildCount();
         for (int i = 0; i < rowCount; i++)
@@ -48,6 +52,14 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    private void initSpinner() {
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, yourField.shipsTypes());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        shipTypes.setAdapter(adapter);
+    }
+
     private void setListener(Button button, final int i, final int j)
     {
         button.setOnClickListener(new View.OnClickListener() {
@@ -55,10 +67,11 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 int row = i;
                 int column = j;
-                if (fieldMatrix[row][column] != 1)
-                    //view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                    view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_close_24));
-                fieldMatrix[row][column] = 1;
+                if (yourField.getField()[row][column] != 1)
+                    view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                //TODO: Write logic 
+                    //view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_close_24));
+                yourField.getField()[row][column] = 1;
             }
         });
     }

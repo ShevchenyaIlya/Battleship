@@ -15,6 +15,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity{
 
     private BattleField yourField;
@@ -22,6 +26,10 @@ public class MainActivity extends AppCompatActivity{
     Spinner shipTypes;
     TextView pageTitle;
     Button rotateShip;
+
+    private boolean horizontalOrientation = true;
+    private String selectedShip = "Four-decker";
+    private String mode = "Create";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +48,14 @@ public class MainActivity extends AppCompatActivity{
 
         TableLayout table = (TableLayout) findViewById(R.id.table);
         int rowCount = table.getChildCount();
-        for (int i = 0; i < rowCount; i++)
+        for (int i = 1; i < rowCount - 1; i++)
         {
             TableRow row = (TableRow) table.getChildAt(i);
             int columnCount = row.getChildCount();
             for (int j = 0; j < columnCount; j++)
             {
                 Button button = (Button) row.getChildAt(j);
-                setListener(button, i, j);
+                setListener(button, i - 1, j);
             }
         }
     }
@@ -65,15 +73,35 @@ public class MainActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int row = i;
-                int column = j;
-                if (yourField.getField()[row][column] != 1)
-                    view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                //TODO: Write logic 
-                    //view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_close_24));
-                yourField.getField()[row][column] = 1;
+                if (mode.equals("Create"))
+                    selectedShip = shipTypes.getSelectedItem().toString();
+                    if(yourField.setVessel(i, j, horizontalOrientation, selectedShip)) {
+                        updateField();
+
+                        if (yourField.isReady()) {
+                            mode = "Ready";
+                            changeActivityState();
+                        }
+                    }
             }
         });
+    }
+
+    private void updateField()
+    {
+        TableLayout table = (TableLayout) findViewById(R.id.table);
+        int rowCount = table.getChildCount();
+        for (int i = 1; i < rowCount - 1; i++)
+        {
+            TableRow row = (TableRow) table.getChildAt(i);
+            int columnCount = row.getChildCount();
+            for (int j = 0; j < columnCount; j++)
+            {
+                Button button = (Button) row.getChildAt(j);
+                if (yourField.checkCell(i - 1, j))
+                    button.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            }
+        }
     }
 
     @Override
@@ -88,4 +116,20 @@ public class MainActivity extends AppCompatActivity{
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
+
+    public void rotateClick(View view) {
+        horizontalOrientation = !horizontalOrientation;
+        if (horizontalOrientation)
+            rotateShip.setText(getResources().getString(R.string.horizontal));
+        else
+            rotateShip.setText(getResources().getString(R.string.vertical));
+    }
+
+
+    public void changeActivityState() {
+        shipTypes.setVisibility(View.GONE);
+        rotateShip.setVisibility(View.GONE);
+        pageTitle.setText(R.string.ready_state);
+    }
+
 }

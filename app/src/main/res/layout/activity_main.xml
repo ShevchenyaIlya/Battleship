@@ -11,6 +11,15 @@
     android:showDividers="beginning|middle|end"
     android:id="@+id/table">
 
+    <TextView
+        android:id="@+id/PageTitle"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:text="@string/place_your_ships"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"/>
+
     <TableRow
         android:layout_height="20dp"
         android:divider="@drawable/keyboard_divider"
@@ -672,6 +681,22 @@
         </Button>
     </TableRow>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/ShipType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/RotateButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/rotate"/>
+    </LinearLayout>
 
 
 

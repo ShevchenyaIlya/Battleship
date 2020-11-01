@@ -6,4 +6,6 @@
     <string name="vertical">Vertical</string>
     <string name="horizontal">Horizontal</string>
     <string name="ready_state">You are ready</string>
+    <string name="create">Create</string>
+    <string name="connect">Connect</string>
 </resources>

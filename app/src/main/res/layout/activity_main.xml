@@ -22,64 +22,74 @@
         android:layout_marginBottom="5dp"/>
 
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
             android:id="@+id/cell_0"
             android:background="@android:color/transparent"
+            android:layout_height="match_parent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_1"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_2"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_3"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_4"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_5"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_6"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_7"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
         <Button
             android:id="@+id/cell_8"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
 
         <Button
             android:id="@+id/cell_9"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_weight="1">
         </Button>
     </TableRow>
 
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -145,7 +155,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -211,7 +221,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -277,6 +287,7 @@
         </Button>
     </TableRow>
     <TableRow
+        android:layout_weight="1"
         android:layout_height="16dp"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
@@ -343,7 +354,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -409,7 +420,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -475,7 +486,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -540,7 +551,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -606,7 +617,7 @@
         </Button>
     </TableRow>
     <TableRow
-        android:layout_height="16dp"
+        android:layout_weight="1"
         android:divider="@drawable/keyboard_divider"
         android:showDividers="beginning|middle|end">
         <Button
@@ -689,7 +700,4 @@
             android:text="@string/horizontal"
             android:onClick="rotateClick" />
     </LinearLayout>
-
-
-
 </TableLayout>

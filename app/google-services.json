@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "38762807241",
+    "firebase_url": "https://battleship-e79fc.firebaseio.com",
+    "project_id": "battleship-e79fc",
+    "storage_bucket": "battleship-e79fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38762807241:android:eff48d2f348c4f5a33f218",
+        "android_client_info": {
+          "package_name": "com.example.battleship"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38762807241-2r2oaupedsbif61nrnbpi11q5jg5n3eg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7XSy2aDFzRM52RQfT7Po8JRn2zxjXtXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38762807241-2r2oaupedsbif61nrnbpi11q5jg5n3eg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

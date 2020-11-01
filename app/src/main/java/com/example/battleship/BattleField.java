@@ -10,12 +10,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class BattleField implements Serializable {
-    private int[][] field = new int[10][10];
+    private Integer[][] field = new Integer[10][10];
 
     private ArrayList<Integer> vesselCounts = new ArrayList<Integer>();
 
@@ -25,13 +27,16 @@ public class BattleField implements Serializable {
         vesselCounts.add(3);
         vesselCounts.add(2);
         vesselCounts.add(1);
+
+        for (Integer[] row: field)
+            Arrays.fill(row, 0);
     }
 
-    public int[][] getField() {
+    public Integer[][] getField() {
         return field;
     }
 
-    public void setField(int[][] field) {
+    public void setField(Integer[][] field) {
         this.field = field;
     }
 
@@ -268,8 +273,18 @@ public class BattleField implements Serializable {
         return true;
     }
 
-    public List<int[]> serialize()
+    public List<Integer> serialize(int index)
     {
-        return Arrays.asList(field);
+        return Arrays.asList(field[index]);
+    }
+
+    public Map<String, Object> getFieldAsMap(User user)
+    {
+        Map<String, Object> data = new HashMap<>();
+        data.put("user", user.getEmail());
+        for (int i = 0; i < 10; i++) {
+            data.put("row " + i, serialize(i));
+        }
+        return data;
     }
 }

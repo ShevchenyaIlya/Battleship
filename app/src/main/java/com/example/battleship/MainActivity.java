@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
-
+    private final String TAG = "MainActivity";
     private BattleField yourField;
     private BattleField opponentField;
     Spinner shipTypes;
@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity{
     private boolean horizontalOrientation = true;
     private String selectedShip = "Four-decker";
     private String mode = "Create";
+    private String documentId;
 
     FirebaseFirestore db;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +55,23 @@ public class MainActivity extends AppCompatActivity{
         yourField = new BattleField();
         opponentField = new BattleField();
         db = FirebaseFirestore.getInstance();
+        user = (User)getIntent().getSerializableExtra("User");
+
+        Map<String, Object> data = yourField.getFieldAsMap(user);
+        data.put("Mode", "Processing");
         db.collection("collections")
-                .add(yourField.serialize())
+                .add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("-----", "DocumentSnapshot written with ID: " + documentReference.getId());
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                        documentId = documentReference.getId();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("------", "Error adding document", e);
+                        Log.w(TAG, "Error adding document", e);
                     }
                 });
         initButtons();
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity{
         shipTypes = (Spinner) findViewById(R.id.ShipType);
         pageTitle = (TextView) findViewById(R.id.PageTitle);
         rotateShip = (Button) findViewById(R.id.RotateButton);
+        pageTitle.setVisibility(View.GONE);
         initSpinner();
 
         TableLayout table = (TableLayout) findViewById(R.id.table);
@@ -109,6 +117,9 @@ public class MainActivity extends AppCompatActivity{
                         updateField();
 
                         if (yourField.isReady()) {
+                            Map<String, Object> data = yourField.getFieldAsMap(user);
+                            data.put("Mode", "Created");
+                            db.collection("collections").document(documentId).update(data);
                             mode = "Ready";
                             changeActivityState();
                         }
@@ -157,9 +168,30 @@ public class MainActivity extends AppCompatActivity{
 
 
     public void changeActivityState() {
-        shipTypes.setVisibility(View.GONE);
-        rotateShip.setVisibility(View.GONE);
+        shipTypes.setVisibility(View.INVISIBLE);
+        rotateShip.setVisibility(View.INVISIBLE);
         pageTitle.setText(R.string.ready_state);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (!documentId.equals("")) {
+            db.collection("collections").document(documentId)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+        }
+        super.onDestroy();
     }
 
 }

@@ -2,13 +2,20 @@ package com.example.battleship;
 
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
-public class BattleField{
+public class BattleField implements Serializable {
     private int[][] field = new int[10][10];
-
-
 
     private ArrayList<Integer> vesselCounts = new ArrayList<Integer>();
 
@@ -261,4 +268,8 @@ public class BattleField{
         return true;
     }
 
+    public List<int[]> serialize()
+    {
+        return Arrays.asList(field);
+    }
 }

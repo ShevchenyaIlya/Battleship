@@ -7,14 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                         Map<String, Object> result = document.getData();
+                                        if (result.get("nickname") != null)
+                                            user.setNickname(result.get("nickname").toString());
                                         if (result.containsValue(user.getEmail())) {
                                             if (!result.get("password").equals(user.getPassword()))
                                                 flag = false;
@@ -64,13 +65,22 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.putExtra("User", user);
                                         context.startActivity(intent);
                                     }
+                                    else
+                                    {
+                                        Toast.makeText(context, "Wrong password for this email.", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
                             }
                         });
             }
+            else
+                Toast.makeText(this, "Short password or wrong email.", Toast.LENGTH_SHORT).show();
         }
+        else
+            Toast.makeText(this, "Fill all field.", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

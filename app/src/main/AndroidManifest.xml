@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
-            android:parentActivityName=".ConnectionActivity">
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ProfileActivity">
         </activity>
         <activity android:name=".ConnectionActivity"
             android:parentActivityName=".LoginActivity">

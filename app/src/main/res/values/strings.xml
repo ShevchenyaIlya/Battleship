@@ -8,4 +8,11 @@
     <string name="ready_state">You are ready</string>
     <string name="create">Create</string>
     <string name="connect">Connect</string>
+    <string name="waiting_opponetn">Waiting for opponent.</string>
+    <string name="your_turn">Your turn</string>
+    <string name="opponent_turn">Opponent turn</string>
+    <string name="you_lost">You lost</string>
+    <string name="you_won">You won</string>
+    <string name="nickname">Nickname</string>
+    <string name="save">SAVE</string>
 </resources>

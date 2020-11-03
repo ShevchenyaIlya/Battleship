@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String status;
     private String connectionId;
     private String nickname;
+    private String imageUrl;
 
     public User() { }
 
@@ -54,5 +55,13 @@ public class User implements Serializable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

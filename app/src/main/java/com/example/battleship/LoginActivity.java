@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Map<String, Object> result = document.getData();
                                         if (result.get("nickname") != null)
                                             user.setNickname(result.get("nickname").toString());
+                                        if (result.get("imageUrl") != null)
+                                            user.setImageUrl(result.get("imageUrl").toString());
                                         if (result.containsValue(user.getEmail())) {
                                             if (!result.get("password").equals(user.getPassword()))
                                                 flag = false;

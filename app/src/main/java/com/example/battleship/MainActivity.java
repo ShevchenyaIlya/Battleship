@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -380,5 +381,13 @@ public class MainActivity extends AppCompatActivity{
                     });;
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ConnectionActivity.class);
+        intent.putExtra("User", user);
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 }

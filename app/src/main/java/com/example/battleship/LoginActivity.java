@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-
+    final String TAG = "LoginActivity";
     FirebaseFirestore db;
     EditText login, password;
     @Override
@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     public void loginClick(View view) {
         if (!login.getText().toString().equals("") && !password.getText().toString().equals("")) {
             if (password.getText().toString().length() >= 6 && login.getText().toString().contains("@")) {
-                final String TAG = "-----------";
                 final User user = new User(login.getText().toString(), password.getText().toString());
                 final Context context = this;
                 db.collection("users")

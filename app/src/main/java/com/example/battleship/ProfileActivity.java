@@ -47,7 +47,6 @@ public class ProfileActivity extends AppCompatActivity {
     private Uri filePath;
     private User user;
     private FirebaseFirestore db;
-    private FirebaseStorage storage;
     private StorageReference storageReference;
     private ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
 
@@ -61,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
             nickname.setText(user.getNickname());
 
         db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
         final Context context = this;
@@ -148,7 +147,6 @@ public class ProfileActivity extends AppCompatActivity {
                        }
                    }
                });
-
     }
 
 

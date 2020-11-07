@@ -16,4 +16,5 @@
     <string name="nickname">Nickname</string>
     <string name="save">SAVE</string>
     <string name="choose">choose</string>
+    <string name="user_profile_image">User profile image</string>
 </resources>

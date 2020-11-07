@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     final String TAG = "LoginActivity";
     FirebaseFirestore db;
     EditText login, password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +49,13 @@ public class LoginActivity extends AppCompatActivity {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                         Map<String, Object> result = document.getData();
+
                                         if (result.get("nickname") != null)
                                             user.setNickname(result.get("nickname").toString());
+
                                         if (result.get("imageUrl") != null)
                                             user.setImageUrl(result.get("imageUrl").toString());
+
                                         if (result.containsValue(user.getEmail())) {
                                             if (!result.get("password").equals(user.getPassword()))
                                                 flag = false;

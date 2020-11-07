@@ -76,13 +76,13 @@ public class ProfileActivity extends AppCompatActivity {
                                 result = document.getData();
                                 map = new HashMap<>();
                                 if (result.get("winner").toString().equals(user.getEmail())) {
-                                    map.put("email", result.get("looser").toString());
-                                    map.put("result", "Won");
+                                    map.put("email", "Opponent: " + result.get("looser").toString());
+                                    map.put("result", "Result: Won");
                                 }
                                 else if (result.get("looser").toString().equals(user.getEmail()))
                                 {
-                                    map.put("email", result.get("winner").toString());
-                                    map.put("result", "Lost");
+                                    map.put("email", "Opponent: " + result.get("winner").toString());
+                                    map.put("result", "Result: Lost");
                                 }
                                 arrayList.add(map);
                             }
@@ -142,7 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
                            Map<String, Object> nickname = new HashMap<>();
                            nickname.put("nickname", user.getNickname());
                            if (user.getImageUrl() != null)
-                            nickname.put("imageUrl", user.getImageUrl());
+                               nickname.put("imageUrl", user.getImageUrl());
                            db.collection("users").document(reference).update(nickname);
                        }
                    }

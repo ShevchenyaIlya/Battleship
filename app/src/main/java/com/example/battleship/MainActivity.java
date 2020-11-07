@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity{
     private String selectedShip = "Four-decker";
     private String mode = "Create";
     private String documentId;
-    private String connectionId;
 
     FirebaseFirestore db;
     User user;
+    String connectionId;
     String opponentEmail;
     String opponentId;
     boolean gameStart = false;

@@ -34,7 +34,7 @@ public class ConnectionActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private boolean listening = true;
     private boolean noBlock = false;
-    private User user;
+    private UserConnection userConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +42,17 @@ public class ConnectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connection);
         key = (EditText) findViewById(R.id.keyField);
         db = FirebaseFirestore.getInstance();
-        user = (User)getIntent().getSerializableExtra("User");
+        userConnection = new UserConnection((User)getIntent().getSerializableExtra("User"), "");
     }
 
     public void createConnect(View view) {
         Map<String, Object> connection = new HashMap<>();
-        connection.put("sender", user.getEmail());
+        connection.put("sender", userConnection.getUser().getEmail());
         connection.put("recipient", "");
         final Context context = this;
         db.collection("connections").add(connection);
         db.collection("connections")
-                .whereEqualTo("sender", user.getEmail())
+                .whereEqualTo("sender", userConnection.getUser().getEmail())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -73,9 +73,9 @@ public class ConnectionActivity extends AppCompatActivity {
                                                     Map<String, Object> result = snapshot.getData();
                                                     if (!result.isEmpty() && !result.get("recipient").equals("")) {
                                                         Intent intent = new Intent(context, MainActivity.class);
-                                                        user.setStatus("Creator");
-                                                        user.setConnectionId(reference);
-                                                        intent.putExtra("User", user);
+                                                        userConnection.getUser().setStatus("Creator");
+                                                        userConnection.setConnectionId(reference);
+                                                        intent.putExtra("UserConnection", userConnection);
                                                         listening = false;
                                                         context.startActivity(intent);
                                                     }
@@ -93,7 +93,7 @@ public class ConnectionActivity extends AppCompatActivity {
     public void Connect(View view) {
         final String connectionString = key.getText().toString();
         final Map<String, Object> recipient = new HashMap<>();
-        recipient.put("recipient", user.getEmail());
+        recipient.put("recipient", userConnection.getUser().getEmail());
         final Context context = this;
         if (!connectionString.equals("")) {
             db.collection("connections")
@@ -108,10 +108,10 @@ public class ConnectionActivity extends AppCompatActivity {
                                     db.collection("connections").document(connectionString)
                                             .update(recipient);
                                     Intent intent = new Intent(context, MainActivity.class);
-                                    user.setStatus("Connected");
-                                    user.setConnectionId(connectionString);
+                                    userConnection.getUser().setStatus("Connected");
+                                    userConnection.setConnectionId(connectionString);
                                     listening = false;
-                                    intent.putExtra("User", user);
+                                    intent.putExtra("UserConnection", userConnection);
                                     intent.putExtra("ConnectionString", document.getId());
                                     context.startActivity(intent);
                                 }
@@ -138,7 +138,7 @@ public class ConnectionActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("UserConnection", userConnection);
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_LONG).show();
         startActivityForResult(intent, 1);
         return super.onOptionsItemSelected(item);
@@ -161,7 +161,7 @@ public class ConnectionActivity extends AppCompatActivity {
         if (data == null) {
             return;
         }
-        user = (User) data.getSerializableExtra("User");
+        userConnection = (UserConnection) data.getSerializableExtra("UserConnection");
     }
 
 

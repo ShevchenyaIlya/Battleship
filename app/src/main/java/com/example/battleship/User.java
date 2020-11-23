@@ -6,7 +6,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String status;
-    private String connectionId;
+//    private String connectionId;
     private String nickname;
     private String imageUrl;
 
@@ -41,13 +41,13 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public String getConnectionId() {
-        return connectionId;
-    }
+//    public String getConnectionId() {
+//        return connectionId;
+//    }
 
-    public void setConnectionId(String connectionId) {
-        this.connectionId = connectionId;
-    }
+//    public void setConnectionId(String connectionId) {
+//        this.connectionId = connectionId;
+//    }
 
     public String getNickname() {
         return nickname;

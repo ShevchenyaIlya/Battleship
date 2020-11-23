@@ -3,6 +3,8 @@ package com.example.battleship;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,52 +37,44 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
     private final String TAG = "MainActivity";
-    private BattleField yourField;
-    private BattleField opponentField;
     Spinner shipTypes;
     TextView pageTitle;
     Button rotateShip;
 
-    private boolean horizontalOrientation = true;
-    private String selectedShip = "Four-decker";
-    private String mode = "Create";
-    private String documentId;
-
-    FirebaseFirestore db;
-    User user;
-    String connectionId;
-    String opponentEmail;
-    String opponentId;
-    boolean gameStart = false;
+    Game game;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        yourField = new BattleField();
-        opponentField = new BattleField();
-        db = FirebaseFirestore.getInstance();
-        user = (User)getIntent().getSerializableExtra("User");
-        connectionId = getIntent().getStringExtra("ConnectionString");
+        game = new ViewModelProvider(this).get(Game.class);
+        if (game.getYourField() == null) {
+            game.setYourField(new BattleField());
+            game.setOpponentField(new BattleField());
+            db = FirebaseFirestore.getInstance();
+            game.setUserConnection((UserConnection) getIntent().getSerializableExtra("UserConnection"));
+            game.setConnectionId(getIntent().getStringExtra("ConnectionString"));
 
-        Map<String, Object> data = yourField.getFieldAsMap();
-        data.put("Mode", "Processing");
-        data.put("user", user.getEmail());
-        db.collection("collections")
-                .add(data)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                        documentId = documentReference.getId();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+            Map<String, Object> data = game.getYourField().getFieldAsMap();
+            data.put("Mode", "Processing");
+            data.put("user", game.getUserConnection().getUser().getEmail());
+            db.collection("collections")
+                    .add(data)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            game.setDocumentId(documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+        }
         initButtons();
     }
 
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity{
     private void initSpinner() {
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, yourField.shipsTypes());
+                android.R.layout.simple_spinner_item, game.getYourField().shipsTypes());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shipTypes.setAdapter(adapter);
     }
@@ -118,24 +112,24 @@ public class MainActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mode.equals("Create")) {
-                    selectedShip = shipTypes.getSelectedItem().toString();
-                    if (yourField.setVessel(i, j, horizontalOrientation, selectedShip)) {
-                        updateField(yourField, true);
+                if (game.getMode().equals("Create")) {
+                    game.setSelectedShip(shipTypes.getSelectedItem().toString());
+                    if (game.getYourField().setVessel(i, j, game.isHorizontalOrientation(), game.getSelectedShip())) {
+                        updateField(game.getYourField(), true);
 
-                        if (yourField.isReady()) {
-                            Map<String, Object> data = yourField.getFieldAsMap();
+                        if (game.getYourField().isReady()) {
+                            Map<String, Object> data = game.getYourField().getFieldAsMap();
                             data.put("Mode", "Ready");
-                            db.collection("collections").document(documentId).update(data);
-                            mode = "Ready";
+                            db.collection("collections").document(game.getDocumentId()).update(data);
+                            game.setMode("Ready");
                             pageTitle.setText(R.string.waiting_opponetn);
 
                             Map<String, Object> recipient = new HashMap<>();
-                            recipient.put(user.getStatus(), mode);
-                            db.collection("connections").document(user.getConnectionId())
+                            recipient.put(game.getUserConnection().getUser().getStatus(), game.getMode());
+                            db.collection("connections").document(game.getUserConnection().getConnectionId())
                                     .update(recipient);
 
-                            final DocumentReference docRef = db.collection("connections").document(user.getConnectionId());
+                            final DocumentReference docRef = db.collection("connections").document(game.getUserConnection().getConnectionId());
                             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable DocumentSnapshot snapshot,
@@ -144,7 +138,7 @@ public class MainActivity extends AppCompatActivity{
                                         Map<String, Object> result = snapshot.getData();
                                         if (!result.isEmpty() && !result.get("recipient").equals("")) {
                                             if (result.size() == 4) {
-                                                if (user.getStatus().equals("Creator")) {
+                                                if (game.getUserConnection().getUser().getStatus().equals("Creator")) {
                                                     loadOpponentField(result.get("recipient").toString());
                                                 }
                                                 else {
@@ -159,27 +153,27 @@ public class MainActivity extends AppCompatActivity{
                         }
                     }
                 }
-                else if (mode.equals("Ready")) {
-                    int attackResult = opponentField.opponentAttack(i, j);
+                else if (game.getMode().equals("Ready")) {
+                    int attackResult = game.getOpponentField().opponentAttack(i, j);
                     if (attackResult == 1) {
                         view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_close_24));
                     }
                     else if (attackResult == 0) {
                         view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_adjust_24));
-                        db.collection("collections").document(opponentId).update(opponentField.getFieldAsMap());
+                        db.collection("collections").document(game.getOpponentId()).update(game.getOpponentField().getFieldAsMap());
                         pageTitle.setText(R.string.opponent_turn);
-                        updateField(yourField, true);
-                        mode = "Wait";
+                        updateField(game.getYourField(), true);
+                        game.setMode("Wait");
                     }
 
-                    if (opponentField.isAllVesselsKilled()) {
-                        mode = "Close";
-                        stopGame(user.getEmail(), opponentEmail, "You won");
+                    if (game.getOpponentField().isAllVesselsKilled()) {
+                        game.setMode("Close");
+                        stopGame(game.getUserConnection().getUser().getEmail(), game.getOpponentEmail(), "You won");
                         Map<String, Object> recipient = new HashMap<>();
-                        recipient.put("Mode", mode);
-                        db.collection("collections").document(opponentId)
+                        recipient.put("Mode", game.getMode());
+                        db.collection("collections").document(game.getOpponentId())
                                 .update(recipient);
-                        saveScore(user.getEmail(), opponentEmail);
+                        saveScore(game.getUserConnection().getUser().getEmail(), game.getOpponentEmail());
 
                     }
                 }
@@ -191,7 +185,7 @@ public class MainActivity extends AppCompatActivity{
     {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         pageTitle.setText(message);
-        updateField(opponentField, true);
+        updateField(game.getOpponentField(), true);
     }
 
     private void saveScore(String winner, String looser)
@@ -204,7 +198,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void loadOpponentField(final String opponent)
     {
-        opponentEmail = opponent;
+        game.setOpponentEmail(opponent);
         final Context context = this;
         db.collection("collections")
                 .whereEqualTo("user", opponent)
@@ -218,20 +212,20 @@ public class MainActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 result = document.getData();
                                 reference = document.getId();
-                                opponentId = reference;
-                                opponentField.setFieldFromMap(result);
+                                game.setOpponentId(reference);
+                                game.getOpponentField().setFieldFromMap(result);
                             }
-                            if (user.getStatus().equals("Creator")) {
+                            if (game.getUserConnection().getUser().getStatus().equals("Creator")) {
                                 pageTitle.setText(R.string.your_turn);
-                                updateField(opponentField, false);
-                                mode = "Ready";
+                                updateField(game.getOpponentField(), false);
+                                game.setMode("Ready");
                             }
                             else {
                                 pageTitle.setText(R.string.opponent_turn);
-                                mode = "Wait";
+                                game.setMode("Wait");
                             }
                             db.collection("collections")
-                                    .whereEqualTo("user", user.getEmail())
+                                    .whereEqualTo("user", game.getUserConnection().getUser().getEmail())
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -250,23 +244,23 @@ public class MainActivity extends AppCompatActivity{
                                                         if (snapshot != null && snapshot.exists()) {
                                                             Map<String, Object> result = snapshot.getData();
                                                             if (!result.get("Mode").equals("Close")) {
-                                                                if (gameStart) {
+                                                                if (game.isGameStart()) {
                                                                     if (pageTitle.getText().toString().equals("Your turn")) {
                                                                         pageTitle.setText(R.string.opponent_turn);
-                                                                        mode = "Wait";
+                                                                        game.setMode("Wait");
                                                                     } else {
                                                                         pageTitle.setText(R.string.your_turn);
-                                                                        updateField(opponentField, false);
-                                                                        mode = "Ready";
+                                                                        updateField(game.getOpponentField(), false);
+                                                                        game.setMode("Ready");
                                                                     }
                                                                 }
-                                                            updateYourField(internalReference);
+                                                                updateYourField(internalReference);
                                                             }
                                                             else {
-                                                                mode = "Close";
-                                                                stopGame(opponentId, user.getEmail(), "You lost");
+                                                                game.setMode("Close");
+                                                                stopGame(game.getOpponentId(), game.getUserConnection().getUser().getEmail(), "You lost");
                                                             }
-                                                            gameStart = true;
+                                                            game.setGameStart(true);
                                                         }
                                                     }
                                                 });
@@ -292,7 +286,7 @@ public class MainActivity extends AppCompatActivity{
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Map<String, Object> map = document.getData();
-                                yourField.setFieldFromMap(map);
+                                game.getYourField().setFieldFromMap(map);
                             }
                         }
                     }
@@ -334,8 +328,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void rotateClick(View view) {
-        horizontalOrientation = !horizontalOrientation;
-        if (horizontalOrientation)
+        game.setHorizontalOrientation(!game.isHorizontalOrientation());
+        if (game.isHorizontalOrientation())
             rotateShip.setText(getResources().getString(R.string.horizontal));
         else
             rotateShip.setText(getResources().getString(R.string.vertical));
@@ -350,8 +344,8 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onDestroy() {
-        if (!documentId.equals("")) {
-            db.collection("collections").document(documentId)
+        if (!game.getDocumentId().equals("")) {
+            db.collection("collections").document(game.getDocumentId())
                     .delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -365,7 +359,7 @@ public class MainActivity extends AppCompatActivity{
                             Log.w(TAG, "Error deleting document", e);
                         }
                     });
-            db.collection("connections").document(connectionId)
+            db.collection("connections").document(game.getConnectionId())
                     .delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -386,7 +380,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ConnectionActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("UserConnection", game.getUserConnection());
         setResult(RESULT_OK, intent);
         super.onBackPressed();
     }

@@ -40,12 +40,12 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
-
     private ListView scores;
     private ImageView userImage;
     private EditText nickname;
+
     private Uri filePath;
-    private User user;
+    private UserConnection userConnection;
     private FirebaseFirestore db;
     private StorageReference storageReference;
     private ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
@@ -54,10 +54,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        user = (User)getIntent().getSerializableExtra("User");
+        userConnection = (UserConnection)getIntent().getSerializableExtra("UserConnection");
         initWidgets();
-        if (user.getNickname() != null)
-            nickname.setText(user.getNickname());
+        if (userConnection.getUser().getNickname() != null)
+            nickname.setText(userConnection.getUser().getNickname());
 
         db = FirebaseFirestore.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -75,11 +75,11 @@ public class ProfileActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 result = document.getData();
                                 map = new HashMap<>();
-                                if (result.get("winner").toString().equals(user.getEmail())) {
+                                if (result.get("winner").toString().equals(userConnection.getUser().getEmail())) {
                                     map.put("email", "Opponent: " + result.get("looser").toString());
                                     map.put("result", "Result: Won");
                                 }
-                                else if (result.get("looser").toString().equals(user.getEmail()))
+                                else if (result.get("looser").toString().equals(userConnection.getUser().getEmail()))
                                 {
                                     map.put("email", "Opponent: " + result.get("winner").toString());
                                     map.put("result", "Result: Lost");
@@ -95,9 +95,9 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
 
-        if(user.getImageUrl() != null)
+        if(userConnection.getUser().getImageUrl() != null)
         {
-            StorageReference photoReference = storageReference.child(user.getImageUrl());
+            StorageReference photoReference = storageReference.child(userConnection.getUser().getImageUrl());
 
             final long ONE_MEGABYTE = 1024 * 1024;
             photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -124,12 +124,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void saveNickname(View view) {
-        user.setNickname(nickname.getText().toString());
+        userConnection.getUser().setNickname(nickname.getText().toString());
         uploadImage();
 
         final Context context = this;
         db.collection("users")
-                .whereEqualTo("email", user.getEmail())
+                .whereEqualTo("email", userConnection.getUser().getEmail())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                    @Override
@@ -140,9 +140,9 @@ public class ProfileActivity extends AppCompatActivity {
                                reference = document.getId();
                            }
                            Map<String, Object> nickname = new HashMap<>();
-                           nickname.put("nickname", user.getNickname());
-                           if (user.getImageUrl() != null)
-                               nickname.put("imageUrl", user.getImageUrl());
+                           nickname.put("nickname", userConnection.getUser().getNickname());
+                           if (userConnection.getUser().getImageUrl() != null)
+                               nickname.put("imageUrl", userConnection.getUser().getImageUrl());
                            db.collection("users").document(reference).update(nickname);
                        }
                    }
@@ -153,7 +153,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ConnectionActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("UserConnection", userConnection);
         setResult(RESULT_OK, intent);
         super.onBackPressed();
     }
@@ -208,8 +208,8 @@ public class ProfileActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            user.setImageUrl("images/" + UUID.randomUUID().toString());
-            StorageReference ref = storageReference.child(user.getImageUrl());
+            userConnection.getUser().setImageUrl("images/" + UUID.randomUUID().toString());
+            StorageReference ref = storageReference.child(userConnection.getUser().getImageUrl());
             ref.putFile(filePath).addOnSuccessListener(
                             new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override

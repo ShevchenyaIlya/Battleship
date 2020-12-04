@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,19 +24,23 @@ public class LoginActivity extends AppCompatActivity {
     final String TAG = "LoginActivity";
     FirebaseFirestore db;
     EditText login, password;
+    LoginViewModel inputData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        inputData = new ViewModelProvider(this).get(LoginViewModel.class);
         db = FirebaseFirestore.getInstance();
         login = (EditText) findViewById(R.id.login);
         password = (EditText) findViewById(R.id.password);
     }
 
     public void loginClick(View view) {
-        if (!login.getText().toString().equals("") && !password.getText().toString().equals("")) {
-            if (password.getText().toString().length() >= 6 && login.getText().toString().contains("@")) {
+        inputData.setEmail(login.getText().toString());
+        inputData.setPassword(password.getText().toString());
+        if (!inputData.getEmail().equals("") && !inputData.getPassword().equals("")) {
+            if (inputData.getPassword().length() >= 6 && inputData.getEmail().contains("@")) {
                 final User user = new User(login.getText().toString(), password.getText().toString());
                 final Context context = this;
                 db.collection("users")
@@ -88,15 +93,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString("login", login.getText().toString());
-        outState.putString("password", password.getText().toString());
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        login.setText(savedInstanceState.getString("login"));
-        password.setText(savedInstanceState.getString("password"));
+    protected void onDestroy() {
+        inputData.setEmail(login.getText().toString());
+        inputData.setPassword(password.getText().toString());
+        super.onDestroy();
     }
 }

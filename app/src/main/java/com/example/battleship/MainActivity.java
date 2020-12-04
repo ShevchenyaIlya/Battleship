@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (game.getMode().equals("Create")) {
-                    game.setSelectedShip(shipTypes.getSelectedItem().toString());
+                if (game.getMode() == Mode.create) {
+                    game.setSelectedShip(renderVessel(shipTypes.getSelectedItem().toString()));
                     if (game.getYourField().setVessel(i, j, game.isHorizontalOrientation(), game.getSelectedShip())) {
                         updateField(game.getYourField(), true);
 
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity{
                             Map<String, Object> data = game.getYourField().getFieldAsMap();
                             data.put("Mode", "Ready");
                             db.collection("collections").document(game.getDocumentId()).update(data);
-                            game.setMode("Ready");
+                            game.setMode(Mode.ready);
                             pageTitle.setText(R.string.waiting_opponetn);
 
                             Map<String, Object> recipient = new HashMap<>();
-                            recipient.put(game.getUserConnection().getUser().getStatus(), game.getMode());
+                            recipient.put(game.getUserConnection().getUser().getStatus(), "Ready");
                             db.collection("connections").document(game.getUserConnection().getConnectionId())
                                     .update(recipient);
 
@@ -153,32 +153,47 @@ public class MainActivity extends AppCompatActivity{
                         }
                     }
                 }
-                else if (game.getMode().equals("Ready")) {
+                else if (game.getMode() == Mode.ready) {
                     int attackResult = game.getOpponentField().opponentAttack(i, j);
                     if (attackResult == 1) {
                         view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_close_24));
                     }
                     else if (attackResult == 0) {
                         view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_adjust_24));
-                        db.collection("collections").document(game.getOpponentId()).update(game.getOpponentField().getFieldAsMap());
+                        db.collection("collections").document(game.getOpponent().getOpponentId()).update(game.getOpponentField().getFieldAsMap());
                         pageTitle.setText(R.string.opponent_turn);
                         updateField(game.getYourField(), true);
-                        game.setMode("Wait");
+                        game.setMode(Mode.wait);
                     }
 
                     if (game.getOpponentField().isAllVesselsKilled()) {
-                        game.setMode("Close");
-                        stopGame(game.getUserConnection().getUser().getEmail(), game.getOpponentEmail(), "You won");
+                        game.setMode(Mode.close);
+                        stopGame(game.getUserConnection().getUser().getEmail(), game.getOpponent().getOpponentEmail(), "You won");
                         Map<String, Object> recipient = new HashMap<>();
-                        recipient.put("Mode", game.getMode());
-                        db.collection("collections").document(game.getOpponentId())
+                        recipient.put("Mode", "Close");
+                        db.collection("collections").document(game.getOpponent().getOpponentId())
                                 .update(recipient);
-                        saveScore(game.getUserConnection().getUser().getEmail(), game.getOpponentEmail());
+                        saveScore(game.getUserConnection().getUser().getEmail(), game.getOpponent().getOpponentEmail());
 
                     }
                 }
             }
         });
+    }
+
+    private Vessel renderVessel(String spinnerItem) {
+        switch (spinnerItem) {
+            case "Single-deck":
+                return Vessel.singleDecker;
+            case "Double-deck":
+                return Vessel.doubleDecker;
+            case "Three-decker":
+                return Vessel.threeDecker;
+            case "Four-decker":
+                return Vessel.fourDecker;
+        }
+
+        return Vessel.singleDecker;
     }
 
     private void stopGame(String winner, String looser, String message)
@@ -198,7 +213,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void loadOpponentField(final String opponent)
     {
-        game.setOpponentEmail(opponent);
+        game.getOpponent().setOpponentEmail(opponent);
         final Context context = this;
         db.collection("collections")
                 .whereEqualTo("user", opponent)
@@ -212,17 +227,17 @@ public class MainActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 result = document.getData();
                                 reference = document.getId();
-                                game.setOpponentId(reference);
+                                game.getOpponent().setOpponentId(reference);
                                 game.getOpponentField().setFieldFromMap(result);
                             }
                             if (game.getUserConnection().getUser().getStatus().equals("Creator")) {
                                 pageTitle.setText(R.string.your_turn);
                                 updateField(game.getOpponentField(), false);
-                                game.setMode("Ready");
+                                game.setMode(Mode.ready);
                             }
                             else {
                                 pageTitle.setText(R.string.opponent_turn);
-                                game.setMode("Wait");
+                                game.setMode(Mode.wait);
                             }
                             db.collection("collections")
                                     .whereEqualTo("user", game.getUserConnection().getUser().getEmail())
@@ -247,18 +262,18 @@ public class MainActivity extends AppCompatActivity{
                                                                 if (game.isGameStart()) {
                                                                     if (pageTitle.getText().toString().equals("Your turn")) {
                                                                         pageTitle.setText(R.string.opponent_turn);
-                                                                        game.setMode("Wait");
+                                                                        game.setMode(Mode.wait);
                                                                     } else {
                                                                         pageTitle.setText(R.string.your_turn);
                                                                         updateField(game.getOpponentField(), false);
-                                                                        game.setMode("Ready");
+                                                                        game.setMode(Mode.ready);
                                                                     }
                                                                 }
                                                                 updateYourField(internalReference);
                                                             }
                                                             else {
-                                                                game.setMode("Close");
-                                                                stopGame(game.getOpponentId(), game.getUserConnection().getUser().getEmail(), "You lost");
+                                                                game.setMode(Mode.close);
+                                                                stopGame(game.getOpponent().getOpponentId(), game.getUserConnection().getUser().getEmail(), "You lost");
                                                             }
                                                             game.setGameStart(true);
                                                         }

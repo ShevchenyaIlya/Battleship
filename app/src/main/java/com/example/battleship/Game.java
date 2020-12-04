@@ -9,14 +9,13 @@ public class Game extends ViewModel {
     private BattleField opponentField;
 
     private boolean horizontalOrientation = true;
-    private String selectedShip = "Four-decker";
-    private String mode = "Create";
+    private Vessel selectedShip = Vessel.fourDecker;
+    private Mode mode = Mode.create;
     private String documentId;
 
     private UserConnection userConnection;
     private String connectionId;
-    private String opponentEmail;
-    private String opponentId;
+    private Opponent opponent;
     private boolean gameStart = false;
 
     public BattleField getYourField() {
@@ -43,19 +42,19 @@ public class Game extends ViewModel {
         this.horizontalOrientation = horizontalOrientation;
     }
 
-    public String getSelectedShip() {
+    public Vessel getSelectedShip() {
         return selectedShip;
     }
 
-    public void setSelectedShip(String selectedShip) {
+    public void setSelectedShip(Vessel selectedShip) {
         this.selectedShip = selectedShip;
     }
 
-    public String getMode() {
+    public Mode getMode() {
         return mode;
     }
 
-    public void setMode(String mode) {
+    public void setMode(Mode mode) {
         this.mode = mode;
     }
 
@@ -83,27 +82,19 @@ public class Game extends ViewModel {
         this.connectionId = connectionId;
     }
 
-    public String getOpponentEmail() {
-        return opponentEmail;
-    }
-
-    public void setOpponentEmail(String opponentEmail) {
-        this.opponentEmail = opponentEmail;
-    }
-
-    public String getOpponentId() {
-        return opponentId;
-    }
-
-    public void setOpponentId(String opponentId) {
-        this.opponentId = opponentId;
-    }
-
     public boolean isGameStart() {
         return gameStart;
     }
 
     public void setGameStart(boolean gameStart) {
         this.gameStart = gameStart;
+    }
+
+    public Opponent getOpponent() {
+        return opponent;
+    }
+
+    public void setOpponent(Opponent opponent) {
+        this.opponent = opponent;
     }
 }

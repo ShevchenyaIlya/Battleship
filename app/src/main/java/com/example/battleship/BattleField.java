@@ -74,29 +74,29 @@ public class BattleField implements Serializable {
         return vesselCoordinates;
     }
 
-    public boolean setVessel(int i, int j, boolean orientation, String vesselType)
+    public boolean setVessel(int i, int j, boolean orientation, Vessel vesselType)
     {
         ArrayList<Pair<Integer, Integer>> borderCoordinates;
         ArrayList<Pair<Integer, Integer>> vesselCoordinates;
         int deckNumber = 0;
         switch (vesselType)
         {
-            case "Single-deck":
+            case singleDecker:
             {
                 deckNumber = 1;
             }
             break;
-            case "Double-deck":
+            case doubleDecker:
             {
                 deckNumber = 2;
             }
             break;
-            case "Three-decker":
+            case threeDecker:
             {
                 deckNumber = 3;
             }
             break;
-            case "Four-decker":
+            case fourDecker:
             {
                 deckNumber = 4;
             }

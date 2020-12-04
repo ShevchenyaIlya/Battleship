@@ -31,6 +31,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.timgroup.jgravatar.Gravatar;
+import com.timgroup.jgravatar.GravatarDefaultImage;
+import com.timgroup.jgravatar.GravatarRating;
 
 import java.io.File;
 import java.io.IOException;
@@ -113,6 +117,19 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "No Such file or Path found!!", Toast.LENGTH_LONG).show();
                 }
             });
+        }
+        else {
+            Gravatar gravatar = new Gravatar();
+            gravatar = gravatar.setSize(100);
+            gravatar = gravatar.setRating(GravatarRating.GENERAL_AUDIENCES);
+            gravatar = gravatar.setDefaultImage(GravatarDefaultImage.IDENTICON);
+            String url = gravatar.getUrl(userConnection.getUser().getEmail());
+            try {
+                Picasso.with(context).load(url).into(userImage);
+            }
+            catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "No Such gravatar profile or image doesn't exist!!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

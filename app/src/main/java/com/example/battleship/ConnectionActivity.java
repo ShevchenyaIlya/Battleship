@@ -1,7 +1,9 @@
 package com.example.battleship;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,30 +12,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConnectionActivity extends AppCompatActivity {
 
-    private String reference;
-    private EditText key;
-    private FirebaseFirestore db;
     private boolean listening = true;
-    private boolean noBlock = false;
+    private static EditText key;
+    private FirebaseFirestore db;
+
     private UserConnection userConnection;
 
     @Override
@@ -46,48 +41,15 @@ public class ConnectionActivity extends AppCompatActivity {
     }
 
     public void createConnect(View view) {
-        Map<String, Object> connection = new HashMap<>();
+        HashMap<String, Object> connection = new HashMap<>();
         connection.put("sender", userConnection.getUser().getEmail());
         connection.put("recipient", "");
-        final Context context = this;
-        db.collection("connections").add(connection);
-        db.collection("connections")
-                .whereEqualTo("sender", userConnection.getUser().getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    key.setText(document.getId());
-                                    reference = document.getId();
-                                }
-                                final DocumentReference docRef = db.collection("connections").document(reference);
-                                final ListenerRegistration registration = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                                        @Nullable FirebaseFirestoreException e) {
-                                        if (listening) {
-                                            if (noBlock) {
-                                                if (snapshot != null && snapshot.exists()) {
-                                                    Map<String, Object> result = snapshot.getData();
-                                                    if (!result.isEmpty() && !result.get("recipient").equals("")) {
-                                                        Intent intent = new Intent(context, MainActivity.class);
-                                                        userConnection.getUser().setStatus("Creator");
-                                                        userConnection.setConnectionId(reference);
-                                                        intent.putExtra("UserConnection", userConnection);
-                                                        listening = false;
-                                                        context.startActivity(intent);
-                                                    }
-                                                }
-                                            }
-                                            noBlock = true;
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                });
+        Intent intent = new Intent(this, ConnectionService.class);
+        intent.putExtra("connection", connection).putExtra("email", userConnection.getUser().getEmail());
+        this.startService(intent);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver, new IntentFilter("ServiceFinish"));
     }
 
     public void Connect(View view) {
@@ -164,5 +126,20 @@ public class ConnectionActivity extends AppCompatActivity {
         userConnection = (UserConnection) data.getSerializableExtra("UserConnection");
     }
 
+    public static void setConnectionStringText(String text) {
+        key.setText(text);
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String reference = intent.getStringExtra("reference");
+            Intent newIntent = new Intent(context, MainActivity.class);
+            userConnection.getUser().setStatus("Creator");
+            userConnection.setConnectionId(reference);
+            newIntent.putExtra("UserConnection", userConnection);
+            context.startActivity(newIntent);
+        }
+    };
 
 }
